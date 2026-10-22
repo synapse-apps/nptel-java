@@ -5,6 +5,7 @@ import { FeedbackMode, QuizQuestion } from '../data/types';
 interface QuestionCardProps {
   question: QuizQuestion;
   indexLabel: string;
+  contextLabel?: string;
   selectedOption: number | undefined;
   onSelectOption: (optionIndex: number) => void;
   feedbackMode: FeedbackMode;
@@ -17,6 +18,7 @@ const OPTION_LETTERS = ['a', 'b', 'c', 'd'] as const;
 export const QuestionCard: React.FC<QuestionCardProps> = ({
   question,
   indexLabel,
+  contextLabel,
   selectedOption,
   onSelectOption,
   feedbackMode,
@@ -42,6 +44,17 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
         }`}
       >
         <span>{indexLabel}</span>
+        {contextLabel && (
+          <span
+            className={`px-2 py-0.5 rounded-md border text-[10px] font-medium tracking-wide ${
+              darkMode
+                ? 'bg-slate-800 border-slate-700 text-slate-300'
+                : 'bg-slate-100 border-slate-200 text-slate-600'
+            }`}
+          >
+            {contextLabel}
+          </span>
+        )}
       </div>
 
       {/* Question Prompt */}

@@ -419,6 +419,7 @@ export default function App() {
             <QuestionCard
               question={currentQuestion}
               indexLabel={`${currentIndex + 1} / ${questions.length}`}
+              contextLabel={`${currentQuestion.year ?? activeYear} • ${currentQuestion.assignmentLabel}`}
               selectedOption={answers[currentQuestion.id]}
               onSelectOption={(optIdx) =>
                 handleSelectOption(currentQuestion.id, optIdx)
@@ -632,6 +633,7 @@ export default function App() {
                     key={q.id}
                     question={q}
                     indexLabel={`${originalIdx + 1} / ${questions.length}`}
+                    contextLabel={`${q.year ?? activeYear} • ${q.assignmentLabel}`}
                     selectedOption={answers[q.id]}
                     onSelectOption={() => {}}
                     feedbackMode="instant"
