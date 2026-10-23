@@ -17,7 +17,14 @@ import {
   getMixedQuestionsByYear,
   getQuestionsByYearAndAssignment,
 } from './data';
-import { FeedbackMode, QuizQuestion, QuizScope, QuizYear } from './data/types';
+import {
+  FeedbackMode,
+  QuizQuestion,
+  QuizScope,
+  QuizYear,
+  isAnswerCorrect,
+  isMultiAnswerQuestion,
+} from './data/types';
 import { QuestionCard } from './components/QuestionCard';
 
 type ViewState = 'home' | 'quiz' | 'result';
@@ -40,7 +47,8 @@ export default function App() {
 
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [answers, setAnswers] = useState<Record<string, number>>({});
+  const [answers, setAnswers] = useState<Record<string, number[]>>({});
+  const [submitted, setSubmitted] = useState<Record<string, boolean>>({});
   const [reviewFilter, setReviewFilter] = useState<ReviewFilter>('all');
 
   useEffect(() => {
@@ -60,6 +68,7 @@ export default function App() {
       setQuestions(qs);
       setCurrentIndex(0);
       setAnswers({});
+      setSubmitted({});
       setReviewFilter('all');
       setView('quiz');
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -74,6 +83,7 @@ export default function App() {
     setQuestions(qs);
     setCurrentIndex(0);
     setAnswers({});
+    setSubmitted({});
     setReviewFilter('all');
     setView('quiz');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -81,14 +91,46 @@ export default function App() {
 
   const handleSelectOption = useCallback(
     (questionId: string, optionIndex: number) => {
+      const question = questions.find((q) => q.id === questionId);
+      if (!question) return;
+
+      if (optionIndex < 0 || optionIndex >= question.options.length) return;
+
+      const isMulti = isMultiAnswerQuestion(question);
+      const currentAnswer = answers[questionId] ?? [];
+
+      if (feedbackMode === 'instant') {
+        if (submitted[questionId]) return;
+        if (!isMulti && currentAnswer.length > 0) return;
+      }
+
       setAnswers((prev) => {
-        if (feedbackMode === 'instant' && prev[questionId] !== undefined) {
-          return prev;
+        const existing = prev[questionId] ?? [];
+
+        if (isMulti) {
+          const next = existing.includes(optionIndex)
+            ? existing.filter((index) => index !== optionIndex)
+            : [...existing, optionIndex].sort((a, b) => a - b);
+          return { ...prev, [questionId]: next };
         }
-        return { ...prev, [questionId]: optionIndex };
+
+        return { ...prev, [questionId]: [optionIndex] };
       });
+
+      if (!isMulti && feedbackMode === 'instant') {
+        setSubmitted((prev) => ({ ...prev, [questionId]: true }));
+      }
     },
-    [feedbackMode]
+    [answers, feedbackMode, questions, submitted]
+  );
+
+  const handleCheckAnswer = useCallback(
+    (questionId: string) => {
+      if (feedbackMode !== 'instant') return;
+      if ((answers[questionId] ?? []).length === 0) return;
+      setSubmitted((prev) => ({ ...prev, [questionId]: true }));
+    },
+    [answers, feedbackMode]
   );
 
   const goPrev = useCallback(() => {
@@ -136,21 +178,36 @@ export default function App() {
         handleSelectOption(currentQuestion.id, 2);
       } else if (['4', 'd', 'D'].includes(e.key)) {
         handleSelectOption(currentQuestion.id, 3);
+      } else if (['5', 'e', 'E'].includes(e.key)) {
+        handleSelectOption(currentQuestion.id, 4);
+      } else if (['6', 'f', 'F'].includes(e.key)) {
+        handleSelectOption(currentQuestion.id, 5);
+      } else if (e.key === 'Enter' && isMultiAnswerQuestion(currentQuestion)) {
+        e.preventDefault();
+        handleCheckAnswer(currentQuestion.id);
       }
     };
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [view, questions, currentIndex, goPrev, goNext, handleSelectOption]);
+  }, [
+    view,
+    questions,
+    currentIndex,
+    goPrev,
+    goNext,
+    handleSelectOption,
+    handleCheckAnswer,
+  ]);
 
   const stats = useMemo(() => {
     let correct = 0;
     let wrong = 0;
 
     for (const q of questions) {
-      const userAns = answers[q.id];
-      if (userAns !== undefined) {
-        if (userAns === q.correctIndex) {
+      const userAns = answers[q.id] ?? [];
+      if (userAns.length > 0) {
+        if (isAnswerCorrect(q, userAns)) {
           correct++;
         } else {
           wrong++;
@@ -169,13 +226,25 @@ export default function App() {
 
   const filteredReviewQuestions = useMemo(() => {
     if (reviewFilter === 'correct') {
-      return questions.filter((q) => answers[q.id] === q.correctIndex);
+      return questions.filter((q) => isAnswerCorrect(q, answers[q.id] ?? []));
     }
     if (reviewFilter === 'wrong') {
-      return questions.filter((q) => answers[q.id] !== q.correctIndex);
+      return questions.filter((q) => !isAnswerCorrect(q, answers[q.id] ?? []));
     }
     return questions;
   }, [questions, answers, reviewFilter]);
+
+  const currentAnswer = currentQuestion
+    ? answers[currentQuestion.id] ?? []
+    : [];
+  const currentIsMulti = currentQuestion
+    ? isMultiAnswerQuestion(currentQuestion)
+    : false;
+  const currentIsSubmitted =
+    currentQuestion && feedbackMode === 'instant'
+      ? submitted[currentQuestion.id] === true ||
+        (!currentIsMulti && currentAnswer.length > 0)
+      : false;
 
   return (
     <div
@@ -272,11 +341,11 @@ export default function App() {
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* ================================================================= */}
-        {/* HOME VIEW: 2026, 2025 & 2024 QUIZ SECTIONS                        */}
+        {/* HOME VIEW: 2026, 2025, 2024 & 2023 QUIZ SECTIONS                  */}
         {/* ================================================================= */}
         {view === 'home' && (
           <div className="space-y-9">
-            {([2026, 2025, 2024] as const).map((year) => (
+            {([2026, 2025, 2024, 2023] as const).map((year) => (
               <section key={year} className="space-y-3.5">
                 <div className="flex items-center justify-between gap-3">
                   <h2 className="text-base font-display font-semibold tracking-tight">
@@ -420,12 +489,13 @@ export default function App() {
               question={currentQuestion}
               indexLabel={`${currentIndex + 1} / ${questions.length}`}
               contextLabel={`${currentQuestion.year ?? activeYear} • ${currentQuestion.assignmentLabel}`}
-              selectedOption={answers[currentQuestion.id]}
+              selectedOptions={currentAnswer}
               onSelectOption={(optIdx) =>
                 handleSelectOption(currentQuestion.id, optIdx)
               }
+              onCheckAnswer={() => handleCheckAnswer(currentQuestion.id)}
               feedbackMode={feedbackMode}
-              isSubmitted={false}
+              isSubmitted={currentIsSubmitted}
               darkMode={darkMode}
             />
 
@@ -634,7 +704,7 @@ export default function App() {
                     question={q}
                     indexLabel={`${originalIdx + 1} / ${questions.length}`}
                     contextLabel={`${q.year ?? activeYear} • ${q.assignmentLabel}`}
-                    selectedOption={answers[q.id]}
+                    selectedOptions={answers[q.id] ?? []}
                     onSelectOption={() => {}}
                     feedbackMode="instant"
                     isSubmitted={true}

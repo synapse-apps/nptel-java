@@ -1,33 +1,42 @@
 import React from 'react';
 import { Check, X } from 'lucide-react';
-import { FeedbackMode, QuizQuestion } from '../data/types';
+import {
+  FeedbackMode,
+  QuizQuestion,
+  getCorrectIndexes,
+  isMultiAnswerQuestion,
+} from '../data/types';
 
 interface QuestionCardProps {
   question: QuizQuestion;
   indexLabel: string;
   contextLabel?: string;
-  selectedOption: number | undefined;
+  selectedOptions: number[];
   onSelectOption: (optionIndex: number) => void;
+  onCheckAnswer?: () => void;
   feedbackMode: FeedbackMode;
   isSubmitted: boolean;
   darkMode: boolean;
 }
 
-const OPTION_LETTERS = ['a', 'b', 'c', 'd'] as const;
+const OPTION_LETTERS = ['a', 'b', 'c', 'd', 'e', 'f'] as const;
 
 export const QuestionCard: React.FC<QuestionCardProps> = ({
   question,
   indexLabel,
   contextLabel,
-  selectedOption,
+  selectedOptions,
   onSelectOption,
+  onCheckAnswer,
   feedbackMode,
   isSubmitted,
   darkMode,
 }) => {
-  const hasAnswered = selectedOption !== undefined;
+  const correctIndexes = getCorrectIndexes(question);
+  const isMulti = isMultiAnswerQuestion(question);
+  const hasAnswered = selectedOptions.length > 0;
   const showEvaluation =
-    isSubmitted || (feedbackMode === 'instant' && hasAnswered);
+    isSubmitted || (feedbackMode === 'instant' && !isMulti && hasAnswered);
 
   return (
     <div
@@ -328,10 +337,19 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
       )}
 
       {/* Options List */}
+      {isMulti && (
+        <div
+          className={`mb-2.5 text-[11px] font-medium ${
+            darkMode ? 'text-slate-400' : 'text-slate-500'
+          }`}
+        >
+          Select all that apply
+        </div>
+      )}
       <div className="space-y-2.5">
         {question.options.map((optionText, idx) => {
-          const isSelected = selectedOption === idx;
-          const isCorrectOption = question.correctIndex === idx;
+          const isSelected = selectedOptions.includes(idx);
+          const isCorrectOption = correctIndexes.includes(idx);
 
           let buttonStyle = darkMode
             ? 'border-slate-800 bg-slate-900/60 hover:bg-slate-800/70 hover:border-slate-700 text-slate-200'
@@ -396,7 +414,7 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
                 <span
                   className={`w-6 h-6 rounded border text-xs font-mono font-medium flex items-center justify-center shrink-0 mt-0.5 transition-colors ${badgeStyle}`}
                 >
-                  {OPTION_LETTERS[idx]}
+                  {OPTION_LETTERS[idx] ?? String(idx + 1)}
                 </span>
                 <span className="text-sm sm:text-[15px] leading-snug whitespace-pre-line break-words font-normal">
                   {optionText}
@@ -407,6 +425,39 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
           );
         })}
       </div>
+
+      {isMulti &&
+        feedbackMode === 'instant' &&
+        !isSubmitted &&
+        onCheckAnswer && (
+          <div className="mt-3 flex items-center justify-between gap-3">
+            <span
+              className={`text-[11px] ${
+                darkMode ? 'text-slate-400' : 'text-slate-500'
+              }`}
+            >
+              {hasAnswered
+                ? 'Select all correct options, then check.'
+                : 'Select at least one option.'}
+            </span>
+            <button
+              type="button"
+              onClick={onCheckAnswer}
+              disabled={!hasAnswered}
+              className={`shrink-0 px-3.5 py-1.5 text-xs font-medium rounded-lg border shadow-2xs transition-colors ${
+                hasAnswered
+                  ? darkMode
+                    ? 'bg-white text-slate-950 border-white hover:bg-slate-100 cursor-pointer'
+                    : 'bg-slate-900 text-white border-slate-900 hover:bg-slate-800 cursor-pointer'
+                  : darkMode
+                  ? 'bg-slate-900 border-slate-800 text-slate-600 cursor-not-allowed'
+                  : 'bg-slate-100 border-slate-200 text-slate-400 cursor-not-allowed'
+              }`}
+            >
+              Check answer
+            </button>
+          </div>
+        )}
 
       {/* Verbatim PDF Solution */}
       {showEvaluation && (
@@ -422,10 +473,13 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
               darkMode ? 'text-slate-200' : 'text-slate-900'
             }`}
           >
-            Solution ({OPTION_LETTERS[question.correctIndex]})
+            {`Solution (${correctIndexes
+              .map((index) => OPTION_LETTERS[index] ?? String(index + 1))
+              .join(', ')})`}
           </div>
           <div className="text-xs sm:text-[13.5px] leading-relaxed whitespace-pre-line">
-            {question.explanation}
+            {question.explanation ||
+              'No explanation was provided in the source PDF.'}
           </div>
 
           {question.diagramType === 'swing-dialog-solution' && (
