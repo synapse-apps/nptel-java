@@ -6,6 +6,7 @@ import {
   getCorrectIndexes,
   isMultiAnswerQuestion,
 } from '../data/types';
+import { CodeBlock } from './CodeBlock';
 
 interface QuestionCardProps {
   question: QuizQuestion;
@@ -83,30 +84,14 @@ export const QuestionCard: React.FC<QuestionCardProps> = ({
       {/* Primary Java Code Block */}
       {question.code && (
         <div className="mb-4">
-          <pre
-            className={`rounded-lg border p-4 text-xs sm:text-[13.5px] leading-relaxed overflow-x-auto font-mono ${
-              darkMode
-                ? 'bg-slate-950 border-slate-800 text-slate-200'
-                : 'bg-slate-50 border-slate-200 text-slate-800'
-            }`}
-          >
-            <code>{question.code}</code>
-          </pre>
+          <CodeBlock code={question.code} darkMode={darkMode} />
         </div>
       )}
 
       {/* Secondary Java Code Block */}
       {question.secondaryCode && (
         <div className="mb-4">
-          <pre
-            className={`rounded-lg border p-4 text-xs sm:text-[13.5px] leading-relaxed overflow-x-auto font-mono ${
-              darkMode
-                ? 'bg-slate-950 border-slate-800 text-slate-200'
-                : 'bg-slate-50 border-slate-200 text-slate-800'
-            }`}
-          >
-            <code>{question.secondaryCode}</code>
-          </pre>
+          <CodeBlock code={question.secondaryCode} darkMode={darkMode} />
         </div>
       )}
 
