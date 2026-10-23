@@ -26,6 +26,7 @@ import {
   isMultiAnswerQuestion,
 } from './data/types';
 import { QuestionCard } from './components/QuestionCard';
+import { QuestionNavigator } from './components/QuestionNavigator';
 
 type ViewState = 'home' | 'quiz' | 'result';
 type ReviewFilter = 'all' | 'wrong' | 'correct';
@@ -142,6 +143,14 @@ export default function App() {
     setCurrentIndex((prev) => Math.min(questions.length - 1, prev + 1));
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [questions.length]);
+
+  const goToQuestion = useCallback(
+    (index: number) => {
+      setCurrentIndex(Math.max(0, Math.min(index, questions.length - 1)));
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    },
+    [questions.length]
+  );
 
   const finishQuiz = useCallback(() => {
     setReviewFilter('all');
@@ -468,19 +477,29 @@ export default function App() {
               </div>
             </div>
 
-            {/* Thin Progress Bar */}
-            <div
-              className={`w-full h-1 rounded-full overflow-hidden ${
-                darkMode ? 'bg-slate-800' : 'bg-slate-200'
-              }`}
-            >
+            <div className="space-y-2">
+              {/* Thin Progress Bar */}
               <div
-                className={`h-full transition-all duration-200 ${
-                  darkMode ? 'bg-slate-200' : 'bg-slate-900'
+                className={`w-full h-1 rounded-full overflow-hidden ${
+                  darkMode ? 'bg-slate-800' : 'bg-slate-200'
                 }`}
-                style={{
-                  width: `${((currentIndex + 1) / questions.length) * 100}%`,
-                }}
+              >
+                <div
+                  className={`h-full transition-all duration-200 ${
+                    darkMode ? 'bg-slate-200' : 'bg-slate-900'
+                  }`}
+                  style={{
+                    width: `${((currentIndex + 1) / questions.length) * 100}%`,
+                  }}
+                />
+              </div>
+
+              <QuestionNavigator
+                questions={questions}
+                answers={answers}
+                currentIndex={currentIndex}
+                onJump={goToQuestion}
+                darkMode={darkMode}
               />
             </div>
 
