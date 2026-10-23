@@ -230,7 +230,7 @@ class Main {
   },
 
   // ============================================================================
-  // ASSIGNMENT 06 (NOC26-CS36 Jan-2026 25S)
+  // ASSIGNMENT 06 (NOC26-CS36 Jan-2026 25S) — W06 / NOC26-CS153 (July-2026 26A)
   // ============================================================================
   {
     id: 'a6-q1',
@@ -238,11 +238,17 @@ class Main {
     assignmentLabel: 'Assignment 06',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 1,
-    question: 'Which method is used to start a new thread in Java?',
-    options: ['run()', 'start()', 'execute()', 'begin()'],
-    correctIndex: 1,
+    question:
+      'What is the primary difference between Byte Streams and Character Streams in Java?',
+    options: [
+      'Byte Streams handle characters, while Character Streams handle bytes.',
+      'Byte Streams are used for binary data, while Character Streams are used for decimal data.',
+      'Character Streams are faster than Byte Streams in all cases.',
+      'Byte Streams are used for binary data, while Character Streams are used for text data.',
+    ],
+    correctIndex: 3,
     explanation:
-      'Calling start() creates a new thread and internally invokes the run() method. Calling run() directly does not create a new thread.',
+      'Byte Streams: Handle raw binary data like images or files (InputStream, OutputStream).\nCharacter Streams: Handle text data and support encoding like Unicode (Reader, Writer).\nCharacter Streams are better for text processing, especially when handling international characters.\nFor a detailed understanding of Java I/O streams, refer to the book Joy with Java.',
   },
   {
     id: 'a6-q2',
@@ -251,11 +257,16 @@ class Main {
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 2,
     question:
-      'Which interface must be implemented to create a thread using the Runnable approach?',
-    options: ['Threadable', 'Runnable', 'Callable', 'Executor'],
-    correctIndex: 1,
+      'Which of the following best describes the concept of multithreading in Java?',
+    options: [
+      'Multiple threads execute concurrently, sharing the same memory space.',
+      'Only one thread executes at a time, ensuring sequential execution.',
+      'Threads in Java cannot communicate with each other.',
+      'Threads require separate memory allocation for each thread to run.',
+    ],
+    correctIndex: 0,
     explanation:
-      'The Runnable interface contains a single method run() and is used when a class needs to be executed by a thread.',
+      'Multithreading in Java allows multiple threads to run concurrently within the same program, sharing the same memory space. This feature makes Java programs more efficient, especially for tasks like multitasking or background processing. However, proper synchronization is crucial to avoid issues like data inconsistency. For a more detailed explanation of multithreading concepts, refer to the book Joy with Java.',
   },
   {
     id: 'a6-q3',
@@ -263,16 +274,30 @@ class Main {
     assignmentLabel: 'Assignment 06',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 3,
-    question: 'What happens if a thread’s run() method completes execution?',
+    question:
+      'Consider the code given below:\nWhat will happen when the above code is executed?',
+    code: `class ExampleThread extends Thread {
+    public void run() {
+        System.out.println("Thread is running.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        ExampleThread thread = new ExampleThread();
+        thread.start();
+        //thread.start();
+    }
+}`,
     options: [
-      'The thread enters the waiting state',
-      'The thread can be restarted',
-      'The thread enters the terminated state',
-      'The thread returns to the runnable state',
+      'The program will execute successfully, printing "Thread is running." twice.',
+      'The program will throw an error when attempting to start the thread a second time.',
+      'The program will terminate without any output.',
+      'The program will execute successfully, printing "Thread is running."',
     ],
-    correctIndex: 2,
+    correctIndex: 3,
     explanation:
-      'Once the run() method finishes, the thread completes its lifecycle and enters the terminated state. A terminated thread cannot be restarted.',
+      '● The second thread.start(); is commented out, so it\'s not executed.\n● Only one thread is started, and the run() method prints:\nThread is running.\nFor more details about the thread lifecycle,please refer to the relavant chapter in the book Joy with Java.',
   },
   {
     id: 'a6-q4',
@@ -280,11 +305,17 @@ class Main {
     assignmentLabel: 'Assignment 06',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 4,
-    question: 'Which keyword is used to synchronize a method in Java?',
-    options: ['Lock', 'Threadsafe', 'Synchronized', 'Volatile'],
-    correctIndex: 2,
+    question:
+      'Which method is used to start a thread in Java?',
+    options: [
+      'run()',
+      'start()',
+      'execute()',
+      'begin()',
+    ],
+    correctIndex: 1,
     explanation:
-      'The synchronized keyword ensures that only one thread can access a method or block at a time, preventing race conditions.',
+      'The start() method begins a new thread and calls the run() method in a separate call stack.\nFor more details, refer to the book "Joy with Java" — it\'s great for beginners!',
   },
   {
     id: 'a6-q5',
@@ -292,11 +323,32 @@ class Main {
     assignmentLabel: 'Assignment 06',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 5,
-    question: 'Which of the following is the default priority of a Java thread?',
-    options: ['1', '3', '5', '2'],
-    correctIndex: 2,
+    question:
+      'Cosnider the code given below:\nWhat will happen when the above code is executed?',
+    code: `class RunnableExample implements Runnable {
+    public void run() {
+        for (int i = 1; i <= 3; i++) {
+            System.out.println("Thread running: " + i);
+        }
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        RunnableExample task = new RunnableExample();
+        Thread thread = new Thread(task);
+        thread.start();
+    }
+}`,
+    options: [
+      'The program will throw a compile-time error because Runnable is not a thread.',
+      'The program will execute successfully, and the run() method will run in a new thread.',
+      'The program will execute the run() method directly on the main thread.',
+      'The program will throw a runtime error because Runnable is not properly implemented.',
+    ],
+    correctIndex: 1,
     explanation:
-      'Java thread priorities range from 1 (MIN_PRIORITY) to 10 (MAX_PRIORITY). The default priority is 5 (NORM_PRIORITY).',
+      'The Runnable interface is implemented by the class RunnableExample. To create a thread, the Runnable object is passed to the Thread constructor, and calling start() ensures that the run() method is executed in a new thread.For more details on creating threads using Runnable, refer to the book Joy with Java.',
   },
   {
     id: 'a6-q6',
@@ -304,11 +356,17 @@ class Main {
     assignmentLabel: 'Assignment 06',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 6,
-    question: 'Which method causes the currently executing thread to pause for a specified time?',
-    options: ['wait()', 'sleep()', 'pause()', 'delay()'],
-    correctIndex: 1,
+    question:
+      'Which of the following states can a thread enter during its lifecycle in Java?',
+    options: [
+      'New, Runnable, Running, Blocked',
+      'New, Runnable, Waiting, Blocked',
+      'New, Runnable, Running, Sleeping, Dead',
+      'New, Runnable, Waiting, Blocked, Terminated',
+    ],
+    correctIndex: 3,
     explanation:
-      'The sleep() method pauses the currently executing thread for a specified number of milliseconds without releasing any locks.',
+      'The states of a thread in Java are:\n● New: Thread is created but not started.\n● Runnable: Thread is ready to run but waiting for CPU time.\n● Waiting/Blocked: Thread is paused or waiting for some resource.\n● Terminated: Thread has completed execution.\n\nAdditional note:\nIn Java thread lifecycle, Waiting and Blocked are two distinct states:\n● Blocked means the thread is waiting to enter a synchronized block/method because another thread holds the lock.\n● Waiting means the thread is waiting indefinitely for another thread to notify it (e.g., via wait()/notify()).\n● This distinction helps in understanding thread coordination better. For more details, check Joy with Java',
   },
   {
     id: 'a6-q7',
@@ -316,16 +374,17 @@ class Main {
     assignmentLabel: 'Assignment 06',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 7,
-    question: 'Which exception is thrown when sleep() is interrupted?',
+    question:
+      'What does the thread scheduler use to decide which thread to run when multiple threads are in the runnable state?',
     options: [
-      'RuntimeException',
-      'IOException',
-      'InterruptedException',
-      'ThreadException',
+      'Thread priority',
+      'Thread\'s execution time',
+      'Thread name',
+      'Thread creation order',
     ],
-    correctIndex: 2,
+    correctIndex: 0,
     explanation:
-      'sleep() throws InterruptedException if another thread interrupts the sleeping thread.',
+      'The thread scheduler uses thread priorities as a hint to determine the execution order of threads in the runnable state. However, thread scheduling also depends on the operating system\'s scheduling policies and may not strictly follow priority.\nFor more on thread scheduling, refer to the book Joy with Java.',
   },
   {
     id: 'a6-q8',
@@ -333,16 +392,37 @@ class Main {
     assignmentLabel: 'Assignment 06',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 8,
-    question: 'Which class is used to read text data efficiently from a file in Java?',
+    question:
+      'Consider the code given below:\nWhich of the following is true about the output?',
+    code: `class PriorityExample extends Thread {
+    public void run() {
+        System.out.println(Thread.currentThread().getName() +
+                           " with priority " +
+                           Thread.currentThread().getPriority());
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        PriorityExample t1 = new PriorityExample();
+        PriorityExample t2 = new PriorityExample();
+
+        t1.setPriority(Thread.MIN_PRIORITY);
+        t2.setPriority(Thread.MAX_PRIORITY);
+
+        t1.start();
+        t2.start();
+    }
+}`,
     options: [
-      'FileInputStream',
-      'BufferedReader',
-      'DataInputStream',
-      'ObjectInputStream',
+      'The thread with the higher priority is guaranteed to execute first.',
+      'The thread with the lower priority will never execute.',
+      'The order of execution depends on the JVM and OS scheduling policies.',
+      'The program will throw an error due to invalid priority values.',
     ],
-    correctIndex: 1,
+    correctIndex: 2,
     explanation:
-      'BufferedReader reads text efficiently using buffering and provides the readLine() method for line-by-line input.',
+      'Thread priority is a hint to the thread scheduler but does not guarantee execution order. The actual behavior depends on the JVM and the underlying OS.For more on thread priorities, refer to the book Joy with Java.',
   },
   {
     id: 'a6-q9',
@@ -350,11 +430,17 @@ class Main {
     assignmentLabel: 'Assignment 06',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 9,
-    question: 'Which method is used to read a line of text using BufferedReader?',
-    options: ['read()', 'readText()', 'readLine()', 'getLine()'],
-    correctIndex: 2,
+    question:
+      'What is the primary purpose of thread synchronization in Java?',
+    options: [
+      'To allow multiple threads to execute a method at the same time',
+      'To ensure thread execution follows a specific order',
+      'To prevent rare conditions and ensure data in-consistency',
+      'To prevent race conditions and ensure data consistency',
+    ],
+    correctIndex: 3,
     explanation:
-      'The readLine() method reads an entire line of text and returns it as a String. It returns null at end of file.',
+      'Thread synchronization is used to control the access of multiple threads to shared resources, ensuring data consistency and preventing race conditions. This is typically done using synchronized methods or blocks.\nFor more details on thread synchronization, refer to the book Joy with Java.',
   },
   {
     id: 'a6-q10',
@@ -362,13 +448,18 @@ class Main {
     assignmentLabel: 'Assignment 06',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 10,
-    question: 'Which class is the superclass of all input byte streams in Java?',
-    options: ['Reader', 'InputStream', 'FileInputStream', 'BufferedInputStream'],
+    question:
+      'Which of the following method returns a reference to the currently executing thread object?',
+    options: [
+      'public static boolean interrupted();',
+      'public static Thread currentThread();',
+      'public final boolean isAlive();',
+      'public final void suspend();',
+    ],
     correctIndex: 1,
     explanation:
-      'InputStream is the abstract superclass for all byte-based input streams in Java, such as FileInputStream.',
+      'Only public static Thread currentThread() method returns a reference to the currently executing thread object among the options.',
   },
-
   // ============================================================================
   // ASSIGNMENT VII / 07 (NOC26-CS36 Jan-2026 25S)
   // ============================================================================
