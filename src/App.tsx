@@ -272,11 +272,11 @@ export default function App() {
 
       <main className="max-w-3xl mx-auto px-4 sm:px-6 py-6 sm:py-8">
         {/* ================================================================= */}
-        {/* HOME VIEW: 2026 QUIZ & 2025 QUIZ SECTIONS                         */}
+        {/* HOME VIEW: 2026, 2025 & 2024 QUIZ SECTIONS                        */}
         {/* ================================================================= */}
         {view === 'home' && (
           <div className="space-y-9">
-            {([2026, 2025] as const).map((year) => (
+            {([2026, 2025, 2024] as const).map((year) => (
               <section key={year} className="space-y-3.5">
                 <div className="flex items-center justify-between gap-3">
                   <h2 className="text-base font-display font-semibold tracking-tight">

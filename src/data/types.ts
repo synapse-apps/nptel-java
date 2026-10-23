@@ -1,4 +1,4 @@
-export type QuizYear = 2026 | 2025;
+export type QuizYear = 2026 | 2025 | 2024;
 
 export interface QuizQuestion {
   id: string;

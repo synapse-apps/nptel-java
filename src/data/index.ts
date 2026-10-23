@@ -5,6 +5,9 @@ import { questionsPhase3 } from './questionsPhase3';
 import { questions2025Phase1 } from './questions2025Phase1';
 import { questions2025Phase2 } from './questions2025Phase2';
 import { questions2025Phase3 } from './questions2025Phase3';
+import { questions2024Phase1 } from './questions2024Phase1';
+import { questions2024Phase2 } from './questions2024Phase2';
+import { questions2024Phase3 } from './questions2024Phase3';
 
 export const QUESTIONS_2026: QuizQuestion[] = [
   ...questionsPhase1,
@@ -17,6 +20,18 @@ export const QUESTIONS_2025: QuizQuestion[] = [
   ...questions2025Phase2,
   ...questions2025Phase3,
 ];
+
+export const QUESTIONS_2024: QuizQuestion[] = [
+  ...questions2024Phase1,
+  ...questions2024Phase2,
+  ...questions2024Phase3,
+];
+
+const QUESTIONS_BY_YEAR: Record<QuizYear, QuizQuestion[]> = {
+  2026: QUESTIONS_2026,
+  2025: QUESTIONS_2025,
+  2024: QUESTIONS_2024,
+};
 
 export const ASSIGNMENTS: AssignmentMeta[] = Array.from({ length: 12 }, (_, i) => {
   const num = String(i + 1).padStart(2, '0');
@@ -50,16 +65,16 @@ export function getQuestionsByYearAndAssignment(
   year: QuizYear,
   assignmentId: number
 ): QuizQuestion[] {
-  const bank = year === 2026 ? QUESTIONS_2026 : QUESTIONS_2025;
+  const bank = QUESTIONS_BY_YEAR[year];
   return bank.filter((q) => q.assignmentId === assignmentId);
 }
 
 /**
- * Returns all 120 questions for a specific year (2026 or 2025) with both the question order
+ * Returns all questions for a specific year with both the question order
  * AND the 4 options per question shuffled, updating correctIndex to match.
  */
 export function getMixedQuestionsByYear(year: QuizYear): QuizQuestion[] {
-  const bank = year === 2026 ? QUESTIONS_2026 : QUESTIONS_2025;
+  const bank = QUESTIONS_BY_YEAR[year];
   const shuffledQuestions = shuffleArray(bank);
   return shuffledQuestions.map((q) => {
     const indexedOptions = q.options.map((text, idx) => ({

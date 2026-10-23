@@ -1,6 +1,6 @@
 {
   "name": "NPTEL Java Quiz — NOC26-CS36",
-  "description": "Minimal, lightweight practice quiz for NPTEL Programming in Java (Assignments 1–12, 120 MCQs with verbatim code snippets and detailed solutions).",
+  "description": "Minimal, lightweight practice quiz for NPTEL Programming in Java (2024–2026, Assignments 1–12, 360 MCQs with verbatim code snippets and detailed solutions).",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
