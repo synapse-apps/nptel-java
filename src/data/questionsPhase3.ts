@@ -239,11 +239,11 @@ public class PanelExample {
     assignmentLabel: 'Assignment X',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 1,
-    question: 'Which Java package contains networking-related classes?',
-    options: ['java.io', 'java.util', 'java.net', 'java.lang'],
-    correctIndex: 2,
+    question: 'Which Swing component is used to display a window?',
+    options: ['JFrame', 'JButton', 'JLabel', 'JTextField'],
+    correctIndex: 0,
     explanation:
-      'All core networking classes in Java, such as URL, Socket, InetAddress, and ServerSocket, are part of the java.net package.',
+      'JFrame is the top-level Swing container that represents a window with a title bar and borders. JButton, JLabel, and JTextField are components placed inside a window.',
   },
   {
     id: 'a10-q2',
@@ -251,11 +251,11 @@ public class PanelExample {
     assignmentLabel: 'Assignment X',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 2,
-    question: 'Which class is used to represent an IP address in Java?',
-    options: ['IPAddress', 'InetAddress', 'NetAddress', 'HostAddress'],
-    correctIndex: 1,
+    question: 'Which Swing component is used to enter a single line of text?',
+    options: ['JButton', 'JLabel', 'JTextField', 'JPanel'],
+    correctIndex: 2,
     explanation:
-      'The InetAddress class represents an Internet Protocol (IP) address and provides methods to obtain host names and IP addresses.',
+      'JTextField is a single-line text input component. JLabel only displays text, JButton is a clickable button, and JPanel is a container.',
   },
   {
     id: 'a10-q3',
@@ -263,16 +263,12 @@ public class PanelExample {
     assignmentLabel: 'Assignment X',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 3,
-    question: 'Which method is used to obtain the IP address from an InetAddress object?',
-    options: [
-      'getAddress()',
-      'getIP()',
-      'getHostAddress()',
-      'getNetworkAddress()',
-    ],
-    correctIndex: 2,
+    question:
+      'Which Swing component is commonly used to display non-editable text?',
+    options: ['JLabel', 'JButton', 'JFrame', 'JTextField'],
+    correctIndex: 0,
     explanation:
-      'The getHostAddress() method returns the IP address in string format.',
+      'JLabel displays a short, non-editable string of text or an icon.',
   },
   {
     id: 'a10-q4',
@@ -280,11 +276,11 @@ public class PanelExample {
     assignmentLabel: 'Assignment X',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 4,
-    question: 'Which protocol is used by Socket in Java for communication?',
-    options: ['UDP', 'HTTP', 'TCP', 'FTP'],
-    correctIndex: 2,
+    question: 'Which JDBC interface is used to execute SQL statements?',
+    options: ['ResultSet', 'Statement', 'Connection', 'DriverManager'],
+    correctIndex: 1,
     explanation:
-      'The Socket class uses the TCP protocol, which is connection-oriented and reliable.',
+      'The Statement interface is used to execute SQL statements. ResultSet holds query results, Connection represents a database connection, and DriverManager manages JDBC drivers.',
   },
   {
     id: 'a10-q5',
@@ -292,11 +288,11 @@ public class PanelExample {
     assignmentLabel: 'Assignment X',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 5,
-    question: 'Which class is used to create a server-side socket in Java?',
-    options: ['Socket', 'ClientSocket', 'ServerSocket', 'NetServer'],
+    question: 'Which JDBC object contains the result of a SELECT query?',
+    options: ['Connection', 'Statement', 'ResultSet', 'DriverManager'],
     correctIndex: 2,
     explanation:
-      'The ServerSocket class waits for client requests and accepts incoming connections.',
+      'A ResultSet object contains the rows returned by a SELECT query.',
   },
   {
     id: 'a10-q6',
@@ -304,10 +300,11 @@ public class PanelExample {
     assignmentLabel: 'Assignment X',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 6,
-    question: 'Which method converts a URI object into a URL object?',
-    options: ['convertURL()', 'getURL()', 'toURL()', 'openURL()'],
-    correctIndex: 2,
-    explanation: 'The toURL() method converts a URI into a URL obj.',
+    question: 'Which JDBC class is used to establish a database connection?',
+    options: ['DriverManager', 'ResultSet', 'Statement', 'Scanner'],
+    correctIndex: 0,
+    explanation:
+      'DriverManager is the JDBC class used to establish a database connection, typically through DriverManager.getConnection().',
   },
   {
     id: 'a10-q7',
@@ -315,11 +312,11 @@ public class PanelExample {
     assignmentLabel: 'Assignment X',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 7,
-    question: 'What value does getPort() return if no port is specified in the URL?',
-    options: ['0', '80', '-1', '443'],
-    correctIndex: 2,
+    question: 'Which Java class is used to connect a client to a server?',
+    options: ['ServerSocket', 'Socket', 'URL', 'NetworkInterface'],
+    correctIndex: 1,
     explanation:
-      'If a port number is not explicitly mentioned in the URL, getPort() returns -1.',
+      'The Socket class represents the client endpoint and is used to connect a client to a server.',
   },
   {
     id: 'a10-q8',
@@ -327,11 +324,12 @@ public class PanelExample {
     assignmentLabel: 'Assignment X',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 8,
-    question: 'Which protocol is connectionless?',
-    options: ['TCP', 'HTTP', 'UDP', 'SMTP'],
+    question:
+      'Which class is used by a server to listen for client connections?',
+    options: ['Socket', 'URL', 'ServerSocket', 'NetworkInterface'],
     correctIndex: 2,
     explanation:
-      'UDP is a connectionless protocol that sends data as packets without establishing a connection.',
+      'ServerSocket is used by a server to listen for incoming client connection requests and accept them using accept().',
   },
   {
     id: 'a10-q9',
@@ -339,11 +337,11 @@ public class PanelExample {
     assignmentLabel: 'Assignment X',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 9,
-    question: 'Which method is used by a client to establish a connection with a server?',
-    options: ['accept()', 'connect()', 'listen()', 'open()'],
-    correctIndex: 1,
+    question: 'Which protocol is used in the URL https://nptel.ac.in?',
+    options: ['FTP', 'HTTP', 'HTTPS', 'SMTP'],
+    correctIndex: 2,
     explanation:
-      'A client uses the connect() method internally when creating a Socket to establish a connection with the server.',
+      'The URL begins with https://, so it uses the HTTPS protocol (HTTP over TLS).',
   },
   {
     id: 'a10-q10',
@@ -351,16 +349,12 @@ public class PanelExample {
     assignmentLabel: 'Assignment X',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 10,
-    question: 'Which layer of the OSI model does TCP belong to?',
-    options: [
-      'Application layer',
-      'Network layer',
-      'Transport layer',
-      'Data link layer',
-    ],
-    correctIndex: 2,
+    question:
+      'Which method of NetworkInterface is used to check whether a network interface is up?',
+    options: ['isActive()', 'isUp()', 'isRunning()', 'isConnected()'],
+    correctIndex: 1,
     explanation:
-      'TCP operates at the transport layer and provides reliable, ordered, and error-checked data delivery.',
+      'NetworkInterface.isUp() returns true if the network interface is up and running.',
   },
 
   // ============================================================================
