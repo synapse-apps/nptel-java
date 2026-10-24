@@ -559,11 +559,12 @@ public class JDBCExample {
     assignmentLabel: 'Assignment XII',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 1,
-    question: 'Which JDBC object is used to iterate over records returned by a SELECT query?',
-    options: ['Statement', 'Connection', 'ResultSet', 'DriverManager'],
-    correctIndex: 2,
+    question:
+      'Which method returns the number of characters in a Java String?',
+    options: ['size()', 'length()', 'count()', 'getSize()'],
+    correctIndex: 1,
     explanation:
-      'A ResultSet object stores and allows traversal of rows returned by a SELECT query.',
+      'The length() method of the String class returns the number of characters in the string. Arrays use length (a field), while collections use size().',
   },
   {
     id: 'a12-q2',
@@ -571,11 +572,12 @@ public class JDBCExample {
     assignmentLabel: 'Assignment XII',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 2,
-    question: 'Which method is used to display a Swing JFrame on the screen?',
-    options: ['display()', 'setVisible(true)', 'showFrame()', 'open()'],
-    correctIndex: 1,
+    question:
+      'Which method is used to get a character at a specified position in a String?',
+    options: ['charAt()', 'getChar()', 'characterAt()', 'getAt()'],
+    correctIndex: 0,
     explanation:
-      'A Swing frame becomes visible only after calling setVisible(true).',
+      'The charAt(int index) method returns the character at the specified index in a String.',
   },
   {
     id: 'a12-q3',
@@ -583,10 +585,11 @@ public class JDBCExample {
     assignmentLabel: 'Assignment XII',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 3,
-    question: 'What is the index of the first element in a Java array?',
-    options: ['1', '-1', '0', 'Depends on array size'],
+    question: 'Which keyword is used to create a subclass in Java?',
+    options: ['implements', 'inherits', 'extends', 'super'],
     correctIndex: 2,
-    explanation: 'Java arrays are zero-indexed.',
+    explanation:
+      'A subclass is created using the extends keyword, for example: class Child extends Parent. The super keyword is used to refer to the parent class, and implements is used for interfaces.',
   },
   {
     id: 'a12-q4',
@@ -594,19 +597,12 @@ public class JDBCExample {
     assignmentLabel: 'Assignment XII',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 4,
-    question: 'Consider the following program: (note space appears only one at a time)',
-    code: `public class Question {
-    public static void main(String[] args) {
-
-        String str = "NPTEL - Programming in JAVA - JAN 2026";
-
-        System.out.println(str.length());
-    }
-}`,
-    options: ['38', '39', '40', '41'],
-    correctIndex: 0,
+    question:
+      'Which block is executed whether an exception occurs or not?',
+    options: ['try', 'catch', 'throw', 'finally'],
+    correctIndex: 3,
     explanation:
-      'The provided Java program calculates and prints the length of the string str, which contains the text "NPTEL - Programming in JAVA - JAN 2026".\nThe output of this program will be: 38',
+      'The finally block is executed whether or not an exception occurs in the try block (except when the JVM exits).',
   },
   {
     id: 'a12-q5',
@@ -614,10 +610,12 @@ public class JDBCExample {
     assignmentLabel: 'Assignment XII',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 5,
-    question: 'Which keyword is used to handle exceptions in Java?',
-    options: ['error', 'handle', 'catch', 'throwable'],
-    correctIndex: 2,
-    explanation: 'The catch block handles exceptions thrown in the try block.',
+    question:
+      'Which keyword is used to explicitly throw an exception in Java?',
+    options: ['throws', 'throw', 'exception', 'catch'],
+    correctIndex: 1,
+    explanation:
+      'The throw keyword is used to explicitly throw an exception. The throws keyword declares exceptions that a method may throw.',
   },
   {
     id: 'a12-q6',
@@ -625,41 +623,12 @@ public class JDBCExample {
     assignmentLabel: 'Assignment XII',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 6,
-    question: 'What is the output of the following program?',
-    code: `public class Test {
-    public static void aMethod() throws Exception {
-        try {
-            throw new Exception();
-        } finally {
-            System.out.print("finally ");
-        }
-    }
-
-    public static void main(String args[]) {
-        try {
-            aMethod();
-        } catch (Exception e) {
-            System.out.print("exception ");
-        }
-        System.out.print("finished ");
-    }
-}`,
-    options: [
-      'finally',
-      'exception finished',
-      'finally exception finished',
-      'Compilation fails',
-    ],
-    correctIndex: 2,
-    explanation: `The program is syntactically correct and here for two try blocks, there is one catch block.
-Here's the step-by-step explanation:
-I. The main method calls aMethod(), which throws an Exception.
-II. Inside aMethod(), an Exception is thrown in the try block.
-III. The finally block is always executed, regardless of whether an exception is thrown or not. In this case, it prints "finally ".
-IV. Since aMethod() throws an Exception, control moves to the catch block in main.
-V. The catch block prints "exception ".
-VI. After the try-catch block in main, "finished " is printed.
-VII. Therefore, the complete output is "finally exception finished".`,
+    question:
+      'Which keyword is used to indicate that a method may throw an exception?',
+    options: ['throw', 'throws', 'try', 'finally'],
+    correctIndex: 1,
+    explanation:
+      'The throws keyword in a method signature indicates that the method may throw one or more exceptions, which the caller must handle or declare.',
   },
   {
     id: 'a12-q7',
@@ -667,29 +636,11 @@ VII. Therefore, the complete output is "finally exception finished".`,
     assignmentLabel: 'Assignment XII',
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 7,
-    question: 'What is the output of the following program?',
-    code: `class Program {
-    public static void main(String[] args) {
-        int counter = 10;
-        do {
-            System.out.print(2 / counter);
-            counter--;
-        } while (counter > 2);
-    }
-}`,
-    options: ['00000012', '00000000', '10011001', '12211221'],
-    correctIndex: 1,
-    explanation: `The provided program uses a do-while loop to iterate from counter = 10 down to counter = 3. During each iteration, it prints the result of 2 / counter.
-1. counter = 10: 2 / 10 results in 0 (integer division).
-2. counter = 9: 2 / 9 results in 0.
-3. counter = 8: 2 / 8 results in 0.
-4. counter = 7: 2 / 7 results in 0.
-5. counter = 6: 2 / 6 results in 0.
-6. counter = 5: 2 / 5 results in 0.
-7. counter = 4: 2 / 4 results in 0.
-8. When counter = 3: 2 / 3 results in 0.
-After counter becomes 2, the loop condition counter > 2 fails, and the loop terminates.
-Therefore, the output of the program is 00000000.`,
+    question: 'Which syntax is used to declare an array variable in Java?',
+    options: ['array', 'newarray', '[]', 'arrayof'],
+    correctIndex: 2,
+    explanation:
+      'Square brackets [] are used to declare an array variable in Java, for example: int[] numbers;',
   },
   {
     id: 'a12-q8',
@@ -698,32 +649,11 @@ Therefore, the output of the program is 00000000.`,
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 8,
     question:
-      'What should be the value of X and Y for the output of the below program to be 36?',
-    code: `public class Question {
-    public static void main(String[] args) {
-        int X = 4;
-        int Y = 5;
-        int sum = 0;
-        for (int i = 0; i < X; i++) {
-            for (int j = i; j < Y; j++) {
-                sum = sum + j;
-            }
-        }
-        System.out.print(sum);
-    }
-}`,
-    options: [
-      'X = 6 and Y = 5',
-      'X = 2 and Y = 7',
-      'X = 1 and Y = 10',
-      'X = 4 and Y = 5',
-    ],
-    correctIndex: 3,
-    explanation: `The following is the output of the program for different values of X and Y:
-a. when X = 6 and Y = 5 output is 40
-b. when X = 2 and Y = 7 output is 42
-c. when X = 1 and Y = 10 output is 45
-d. when X = 4 and Y = 5 output is 36`,
+      'Which layout manager arranges components in five regions?',
+    options: ['FlowLayout', 'BorderLayout', 'GridLayout', 'BoxLayout'],
+    correctIndex: 1,
+    explanation:
+      'BorderLayout arranges components in five regions: NORTH, SOUTH, EAST, WEST, and CENTER.',
   },
   {
     id: 'a12-q9',
@@ -732,23 +662,16 @@ d. when X = 4 and Y = 5 output is 36`,
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 9,
     question:
-      'Which of the following options correctly initializes the elements of the numbers array with values 1, 2, 3, 4, and 5?',
-    code: `public class NPTEL {
-    public static void main(String[] args) {
-        int[] numbers = new int[5];
-        // #1 : Missing code block
-        System.out.println("First element: " + numbers[0]);
-    }
-}`,
+      'Which method is used to register an ActionListener with a JButton?',
     options: [
-      'numbers = {1, 2, 3, 4, 5};',
-      'for (int i = 1; i < numbers.length; i++) {\n    numbers[i] = i;\n}',
-      'numbers[] = {1, 2, 3, 4, 5};',
-      'numbers = new int[]{1, 2, 3, 4, 5};',
+      'addActionListener()',
+      'addButtonListener()',
+      'setAction()',
+      'registerAction()',
     ],
-    correctIndex: 3,
+    correctIndex: 0,
     explanation:
-      'numbers = new int[]{1, 2, 3, 4, 5}; is the correct answer because it initializes the numbers array with values 1, 2, 3, 4, and 5 using array initializer syntax.',
+      'The addActionListener() method registers an ActionListener so that the button can respond to click events.',
   },
   {
     id: 'a12-q10',
@@ -757,16 +680,10 @@ d. when X = 4 and Y = 5 output is 36`,
     courseCode: 'NOC26-CS36 (Jan-2026 25S)',
     questionNumber: 10,
     question:
-      'Which of the following statements are correct and would NOT cause a compilation error?',
-    code: `  I.   float[] = new float(3);
- II.   float f1[] = new float[];
-III.   float[] f2 = new float[3];
- IV.   float f3[] = new float[3];
-  V.   float f4[]= { 1.0f, 2.0f, 2.0f };
- VI.   float f5[] = new float[] { 1.0f, 2.0f, 3.0f};`,
-    options: ['iii, iv, v, vi', 'i, ii, iii, iv', 'ii, iii, v, vi', 'i, ii, iv, vi'],
-    correctIndex: 0,
+      'Which method of NetworkInterface is used to check whether a network interface is up?',
+    options: ['isActive()', 'isUp()', 'isRunning()', 'isConnected()'],
+    correctIndex: 1,
     explanation:
-      'Option iii, iv, v and vi are syntactically correct for declaration of an array.',
+      'NetworkInterface.isUp() returns true if the network interface is up and running.',
   },
 ];
